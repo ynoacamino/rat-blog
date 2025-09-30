@@ -69,6 +69,11 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    posts: Post;
+    comments: Comment;
+    reactions: Reaction;
+    categories: Category;
+    notifications: Notification;
     article: Article;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +83,11 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
+    reactions: ReactionsSelect<false> | ReactionsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    notifications: NotificationsSelect<false> | NotificationsSelect<true>;
     article: ArticleSelect<false> | ArticleSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -121,6 +131,92 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  fullName: string;
+  /**
+   * Tipo de usuario en la plataforma
+   */
+  userType: 'common' | 'candidate';
+  profileImage?: (number | null) | Media;
+  /**
+   * Breve descripción personal
+   */
+  bio?: string | null;
+  /**
+   * Información específica para candidatos
+   */
+  candidateInfo?: {
+    faculty?:
+      | (
+          | 'ips'
+          | 'civil'
+          | 'procesos'
+          | 'medicina'
+          | 'enfermeria'
+          | 'biologicas'
+          | 'naturales'
+          | 'sociales'
+          | 'educacion'
+          | 'contables'
+          | 'administracion'
+          | 'derecho'
+          | 'psicologia'
+          | 'filosofia'
+          | 'arquitectura'
+        )
+      | null;
+    position?:
+      | (
+          | 'rector'
+          | 'vicerrector_academico'
+          | 'vicerrector_investigacion'
+          | 'decano'
+          | 'vicedecano'
+          | 'director_escuela'
+          | 'representante_estudiantil'
+        )
+      | null;
+    /**
+     * Propuesta principal del candidato
+     */
+    proposal?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    experience?:
+      | {
+          title: string;
+          organization: string;
+          /**
+           * Ej: 2020-2024, Enero 2023 - Presente
+           */
+          period?: string | null;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    socialLinks?: {
+      facebook?: string | null;
+      twitter?: string | null;
+      instagram?: string | null;
+      linkedin?: string | null;
+      website?: string | null;
+    };
+  };
+  /**
+   * Si está desmarcado, el usuario no podrá acceder
+   */
+  isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -157,6 +253,289 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  /**
+   * Título del post (opcional para posts cortos)
+   */
+  title: string;
+  /**
+   * Tipo de publicación: corta (estilo Facebook) o larga (estilo Medium)
+   */
+  type: 'short' | 'long';
+  /**
+   * Contenido principal del post
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Breve resumen para posts largos (se muestra en previews)
+   */
+  excerpt?: string | null;
+  /**
+   * Imagen principal del post
+   */
+  featuredImage?: (number | null) | Media;
+  /**
+   * Imágenes adicionales para el post
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Candidato que publica el post
+   */
+  author: number | User;
+  /**
+   * Categorías del post para mejor organización
+   */
+  categories?: (number | Category)[] | null;
+  /**
+   * Etiquetas para categorizar el post
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  status: 'draft' | 'published' | 'archived';
+  /**
+   * Fecha y hora de publicación (se asigna automáticamente)
+   */
+  publishedAt?: string | null;
+  /**
+   * Si está desmarcado, no se podrán hacer comentarios en este post
+   */
+  allowComments?: boolean | null;
+  /**
+   * Los posts fijados aparecen primero en el feed
+   */
+  isPinned?: boolean | null;
+  /**
+   * Número de likes (calculado automáticamente)
+   */
+  likesCount?: number | null;
+  /**
+   * Número de comentarios (calculado automáticamente)
+   */
+  commentsCount?: number | null;
+  /**
+   * Número de vistas (calculado automáticamente)
+   */
+  viewsCount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  /**
+   * Nombre de la categoría (ej: Propuestas, Eventos, Debates)
+   */
+  name: string;
+  /**
+   * URL amigable (se genera automáticamente)
+   */
+  slug: string;
+  /**
+   * Breve descripción de la categoría
+   */
+  description?: string | null;
+  /**
+   * Color hexadecimal para la categoría (ej: #FF5733)
+   */
+  color?: string | null;
+  /**
+   * Icono representativo de la categoría
+   */
+  icon?:
+    | (
+        | 'proposals'
+        | 'events'
+        | 'debates'
+        | 'polls'
+        | 'news'
+        | 'goals'
+        | 'alliances'
+        | 'education'
+        | 'management'
+        | 'research'
+      )
+    | null;
+  /**
+   * Si está desactivada, no aparecerá en el frontend
+   */
+  isActive?: boolean | null;
+  /**
+   * Número de posts en esta categoría (calculado automáticamente)
+   */
+  postsCount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: number;
+  /**
+   * Contenido del comentario
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Usuario que hace el comentario
+   */
+  author: number | User;
+  /**
+   * Post al que pertenece el comentario
+   */
+  post: number | Post;
+  /**
+   * Si es una respuesta a otro comentario, seleccionar el comentario padre
+   */
+  parentComment?: (number | null) | Comment;
+  /**
+   * Indica si el comentario ha sido editado
+   */
+  isEdited?: boolean | null;
+  /**
+   * Última fecha de edición
+   */
+  editedAt?: string | null;
+  /**
+   * Estado del comentario
+   */
+  status: 'public' | 'hidden' | 'reported';
+  /**
+   * Número de likes (calculado automáticamente)
+   */
+  likesCount?: number | null;
+  /**
+   * Número de respuestas (calculado automáticamente)
+   */
+  repliesCount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reactions".
+ */
+export interface Reaction {
+  id: number;
+  /**
+   * Tipo de reacción
+   */
+  type: 'like' | 'love' | 'support' | 'celebrate' | 'insightful';
+  /**
+   * Usuario que reacciona
+   */
+  user: number | User;
+  /**
+   * Tipo de contenido al que se reacciona
+   */
+  targetType: 'post' | 'comment';
+  /**
+   * ID del post o comentario al que se reacciona
+   */
+  targetId: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications".
+ */
+export interface Notification {
+  id: number;
+  /**
+   * Tipo de notificación
+   */
+  type:
+    | 'new_comment_on_post'
+    | 'reply_to_comment'
+    | 'like_on_post'
+    | 'like_on_comment'
+    | 'mention_in_post'
+    | 'mention_in_comment'
+    | 'new_follower'
+    | 'followed_candidate_post'
+    | 'system';
+  /**
+   * Usuario que recibe la notificación
+   */
+  recipient: number | User;
+  /**
+   * Usuario que genera la notificación (si aplica)
+   */
+  sender?: (number | null) | User;
+  /**
+   * Texto de la notificación
+   */
+  message: string;
+  /**
+   * Si la notificación ha sido leída
+   */
+  read?: boolean | null;
+  /**
+   * Post relacionado con la notificación (si aplica)
+   */
+  relatedPost?: (number | null) | Post;
+  /**
+   * Comentario relacionado con la notificación (si aplica)
+   */
+  relatedComment?: (number | null) | Comment;
+  /**
+   * URL a la que dirigir cuando se haga clic en la notificación
+   */
+  actionUrl?: string | null;
+  /**
+   * Fecha y hora en que se marcó como leída
+   */
+  readAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -198,6 +577,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'comments';
+        value: number | Comment;
+      } | null)
+    | ({
+        relationTo: 'reactions';
+        value: number | Reaction;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'notifications';
+        value: number | Notification;
       } | null)
     | ({
         relationTo: 'article';
@@ -250,6 +649,36 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  fullName?: T;
+  userType?: T;
+  profileImage?: T;
+  bio?: T;
+  candidateInfo?:
+    | T
+    | {
+        faculty?: T;
+        position?: T;
+        proposal?: T;
+        experience?:
+          | T
+          | {
+              title?: T;
+              organization?: T;
+              period?: T;
+              description?: T;
+              id?: T;
+            };
+        socialLinks?:
+          | T
+          | {
+              facebook?: T;
+              twitter?: T;
+              instagram?: T;
+              linkedin?: T;
+              website?: T;
+            };
+      };
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -284,6 +713,102 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  type?: T;
+  content?: T;
+  excerpt?: T;
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  author?: T;
+  categories?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  status?: T;
+  publishedAt?: T;
+  allowComments?: T;
+  isPinned?: T;
+  likesCount?: T;
+  commentsCount?: T;
+  viewsCount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  content?: T;
+  author?: T;
+  post?: T;
+  parentComment?: T;
+  isEdited?: T;
+  editedAt?: T;
+  status?: T;
+  likesCount?: T;
+  repliesCount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reactions_select".
+ */
+export interface ReactionsSelect<T extends boolean = true> {
+  type?: T;
+  user?: T;
+  targetType?: T;
+  targetId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  color?: T;
+  icon?: T;
+  isActive?: T;
+  postsCount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications_select".
+ */
+export interface NotificationsSelect<T extends boolean = true> {
+  type?: T;
+  recipient?: T;
+  sender?: T;
+  message?: T;
+  read?: T;
+  relatedPost?: T;
+  relatedComment?: T;
+  actionUrl?: T;
+  readAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
