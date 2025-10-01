@@ -1,3 +1,4 @@
+import { User } from '@/payload-types'
 import type { CollectionConfig } from 'payload'
 
 export const Categories: CollectionConfig = {
@@ -10,15 +11,15 @@ export const Categories: CollectionConfig = {
     read: () => true, // Todos pueden leer categorías
     create: ({ req: { user } }) => {
       // Solo candidatos pueden crear categorías
-      return Boolean(user && (user as any).userType === 'candidate')
+      return Boolean(user && (user as User).userType === 'candidate')
     },
     update: ({ req: { user } }) => {
       // Solo candidatos pueden editar categorías
-      return Boolean(user && (user as any).userType === 'candidate')
+      return Boolean(user && (user as User).userType === 'candidate')
     },
     delete: ({ req: { user } }) => {
       // Solo candidatos pueden eliminar categorías
-      return Boolean(user && (user as any).userType === 'candidate')
+      return Boolean(user && (user as User).userType === 'candidate')
     },
   },
   fields: [

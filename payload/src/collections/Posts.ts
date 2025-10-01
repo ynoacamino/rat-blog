@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { validateCandidateOnly } from '../lib/hooks'
+import { User } from '@/payload-types'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
@@ -11,7 +12,7 @@ export const Posts: CollectionConfig = {
     read: () => true, // Todos pueden leer posts públicos
     create: ({ req: { user } }) => {
       // Solo candidatos pueden crear posts
-      return Boolean(user && (user as any).userType === 'candidate')
+      return Boolean(user && (user as User).userType === 'candidate')
     },
     update: ({ req: { user } }) => {
       // Solo el autor puede editar su post

@@ -1,3 +1,4 @@
+import { User } from '@/payload-types'
 import { CollectionAfterChangeHook, CollectionBeforeChangeHook, CollectionAfterDeleteHook } from 'payload'
 
 // Hook para actualizar contadores cuando se crea una reacción
@@ -304,7 +305,7 @@ export const createCommentNotification: CollectionAfterChangeHook = async ({
 // Función para validar que solo candidatos puedan crear posts
 export const validateCandidateOnly: CollectionBeforeChangeHook = async ({ req, operation }) => {
   if (operation === 'create') {
-    const user = req.user as any
+    const user = req.user as User | undefined
     
     if (!user || user.userType !== 'candidate') {
       throw new Error('Solo los candidatos pueden crear publicaciones')

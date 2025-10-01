@@ -140,7 +140,7 @@ export const Notifications: CollectionConfig = {
   ],
   hooks: {
     beforeChange: [
-      ({ data, operation }) => {
+      ({ data }) => {
         // Marcar fecha de lectura cuando se marca como leída
         if (data.read && !data.readAt) {
           data.readAt = new Date().toISOString()
