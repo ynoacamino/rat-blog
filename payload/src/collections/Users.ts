@@ -20,15 +20,19 @@ export const Users: CollectionConfig = {
       required: true,
       options: [
         {
-          label: 'Usuario Común',
-          value: 'common',
+          label: 'Votante',
+          value: 'voter',
         },
         {
           label: 'Candidato',
           value: 'candidate',
         },
+        {
+          label: 'Administrador del Sistema',
+          value: 'admin',
+        },
       ],
-      defaultValue: 'common',
+      defaultValue: 'voter',
       admin: {
         description: 'Tipo de usuario en la plataforma',
       },
@@ -192,8 +196,12 @@ export const Users: CollectionConfig = {
       return false
     },
     delete: ({ req: { user } }) => {
-      // Solo admins pueden eliminar usuarios (por ahora deshabilitado)
-      return false
+      // Solo admins pueden eliminar usuarios
+      return user?.userType === 'admin'
+    },
+    admin: ({ req: { user } }) => {
+      // Solo usuarios admin pueden acceder al panel administrativo
+      return user?.userType === 'admin'
     },
   },
 }

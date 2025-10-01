@@ -135,7 +135,7 @@ export interface User {
   /**
    * Tipo de usuario en la plataforma
    */
-  userType: 'common' | 'candidate';
+  userType: 'voter' | 'candidate' | 'admin';
   profileImage?: (number | null) | Media;
   /**
    * Breve descripción personal
