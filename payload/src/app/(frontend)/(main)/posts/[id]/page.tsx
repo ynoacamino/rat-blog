@@ -12,10 +12,10 @@ import { Separator } from '@/components/ui/separator'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { 
+import {
   ArrowLeft,
-  Heart, 
-  MessageCircle, 
+  Heart,
+  MessageCircle,
   Eye,
   Calendar,
   Share2,
@@ -101,9 +101,9 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
     const publishedDate = post.publishedAt ? new Date(post.publishedAt) : new Date(post.createdAt)
 
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="">
         {/* Header */}
-        <section className="bg-white border-b border-gray-200">
+        <section className="bg-white border-b border-border">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <Button variant="outline" size="sm" asChild className="mb-4">
               <Link href="/posts">
@@ -116,7 +116,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
               <Badge variant={post.type === 'long' ? 'default' : 'secondary'}>
                 {post.type === 'long' ? 'Artículo de Blog' : 'Post Corto'}
               </Badge>
-              
+
               <div className="flex items-center space-x-2">
                 <Button variant="outline" size="sm">
                   <Share2 className="h-4 w-4 mr-2" />
@@ -132,9 +132,9 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
         {/* Contenido principal */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <article className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <article className="bg-white shadow-sm border border-border overflow-hidden">
             {/* Header del post */}
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-6 border-b border-border">
               {/* Título */}
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
                 {post.title}
@@ -144,18 +144,18 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <Avatar className="h-12 w-12">
-                    <AvatarImage 
+                    <AvatarImage
                       src={(author.profileImage as Media).url ?? ''}
-                      alt={author.fullName} 
+                      alt={author.fullName}
                     />
                     <AvatarFallback>
                       {author.fullName?.split(' ').map((n: string) => n[0]).join('').toUpperCase() || 'A'}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <Link 
+                    <Link
                       href={`/candidatos/${author.id}`}
-                      className="text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+                      className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
                     >
                       {author.fullName}
                     </Link>
@@ -205,7 +205,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                 {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
                   <>
                     {post.tags.map((tagObj, index: number) => (
-                      <span key={index} className="text-xs text-blue-600 hover:text-blue-800">
+                      <span key={index} className="text-xs text-primary/80 hover:text-primary">
                         #{typeof tagObj === 'object' && 'tag' in tagObj ? tagObj.tag : tagObj}
                       </span>
                     ))}
@@ -230,7 +230,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
             <div className="p-6">
               {post.excerpt && post.type === 'long' && (
                 <div className="mb-6">
-                  <p className="text-lg text-gray-700 leading-relaxed italic border-l-4 border-blue-500 pl-4">
+                  <p className="text-lg text-gray-700 leading-relaxed italic border-l-4 border-border pl-4">
                     {post.excerpt}
                   </p>
                 </div>
@@ -252,7 +252,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                           alt={item.caption || `Imagen ${index + 1}`}
                           width={400}
                           height={300}
-                          className="w-full h-48 object-cover rounded-lg"
+                          className="w-full h-48 object-cover"
                         />
                         {item.caption && (
                           <p className="text-sm text-gray-600 mt-2">{item.caption}</p>
@@ -299,12 +299,12 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                   {comments.docs.length > 0 ? (
                     <div className="space-y-6">
                       {comments.docs.map((comment) => (
-                        <div key={comment.id} className="border-b border-gray-200 pb-4 last:border-b-0">
+                        <div key={comment.id} className="border-b border-border pb-4 last:border-b-0">
                           <div className="flex items-start space-x-3">
                             {/* <Avatar className="h-8 w-8">
-                              <AvatarImage 
+                              <AvatarImage
                                 src={comment.author?.profileImage?.url}
-                                alt={comment.author?.fullName} 
+                                alt={comment.author?.fullName}
                               />
                               <AvatarFallback>
                                 {comment.author?.fullName?.split(' ').map((n: string) => n[0]).join('').toUpperCase() || 'U'}
@@ -350,7 +350,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                   <Card key={relatedPost.id} className="hover:shadow-lg transition-shadow">
                     <CardContent className="p-4">
                       <Link href={`/posts/${relatedPost.id}`}>
-                        <h3 className="font-semibold text-gray-900 hover:text-blue-600 transition-colors line-clamp-2 mb-2">
+                        <h3 className="font-semibold text-primary hover:primary/80 transition-colors line-clamp-2 mb-2">
                           {relatedPost.title}
                         </h3>
                       </Link>
@@ -362,7 +362,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                       <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
                         <span>
                           {formatDistanceToNow(
-                            new Date(relatedPost.publishedAt || relatedPost.createdAt), 
+                            new Date(relatedPost.publishedAt || relatedPost.createdAt),
                             { addSuffix: true, locale: es }
                           )}
                         </span>

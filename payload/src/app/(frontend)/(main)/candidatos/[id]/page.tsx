@@ -4,15 +4,15 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import config from '@/payload.config'
-import { PostCard } from '../../../../components/home/PostCard'
+import { PostCard } from '@/components/home/PostCard'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import { 
+import {
   ArrowLeft,
-  MapPin, 
-  Briefcase, 
+  MapPin,
+  Briefcase,
   Calendar,
   ExternalLink,
   Facebook,
@@ -109,9 +109,9 @@ export default async function CandidateDetailPage({ params }: CandidateDetailPag
     }
 
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="">
         {/* Header del candidato */}
-        <section className="bg-white border-b border-gray-200">
+        <section className="bg-white border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="mb-6">
               <Button variant="outline" size="sm" asChild>
@@ -134,11 +134,11 @@ export default async function CandidateDetailPage({ params }: CandidateDetailPag
                         alt={candidate.fullName}
                         width={150}
                         height={150}
-                        className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-blue-200"
+                        className="w-32 h-32 md:w-40 md:h-40 object-cover border-4 border-border"
                       />
                     ) : (
-                      <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-blue-100 flex items-center justify-center border-4 border-blue-200">
-                        <User className="h-16 w-16 text-blue-600" />
+                      <div className="w-32 h-32 md:w-40 md:h-40 bg-blue-100 flex items-center justify-center border-4 border-border">
+                        <User className="h-16 w-16 text-primary" />
                       </div>
                     )}
                   </div>
@@ -148,14 +148,14 @@ export default async function CandidateDetailPage({ params }: CandidateDetailPag
                     <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                       {candidate.fullName}
                     </h1>
-                    
+
                     {candidateInfo?.position && (
                       <div className="flex items-center text-lg text-gray-700 mb-2">
-                        <Briefcase className="h-5 w-5 mr-2 text-blue-600" />
+                        <Briefcase className="h-5 w-5 mr-2 text-primary" />
                         <span>Candidato a {getPositionName(candidateInfo.position)}</span>
                       </div>
                     )}
-                    
+
                     {candidateInfo?.faculty && (
                       <div className="flex items-center text-gray-600 mb-4">
                         <MapPin className="h-4 w-4 mr-2" />
@@ -195,11 +195,11 @@ export default async function CandidateDetailPage({ params }: CandidateDetailPag
                     <CardContent>
                       <div className="space-y-3">
                         {candidateInfo.socialLinks.facebook && (
-                          <a 
+                          <a
                             href={candidateInfo.socialLinks.facebook}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+                            className="flex items-center text-primary/80 hover:text-primary transition-colors"
                           >
                             <Facebook className="h-5 w-5 mr-3" />
                             <span>Facebook</span>
@@ -207,11 +207,11 @@ export default async function CandidateDetailPage({ params }: CandidateDetailPag
                           </a>
                         )}
                         {candidateInfo.socialLinks.twitter && (
-                          <a 
+                          <a
                             href={candidateInfo.socialLinks.twitter}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center text-blue-400 hover:text-blue-600 transition-colors"
+                            className="flex items-center text-primary/80 hover:text-primary transition-colors"
                           >
                             <Twitter className="h-5 w-5 mr-3" />
                             <span>Twitter/X</span>
@@ -219,7 +219,7 @@ export default async function CandidateDetailPage({ params }: CandidateDetailPag
                           </a>
                         )}
                         {candidateInfo.socialLinks.instagram && (
-                          <a 
+                          <a
                             href={candidateInfo.socialLinks.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -231,11 +231,11 @@ export default async function CandidateDetailPage({ params }: CandidateDetailPag
                           </a>
                         )}
                         {candidateInfo.socialLinks.linkedin && (
-                          <a 
+                          <a
                             href={candidateInfo.socialLinks.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center text-blue-700 hover:text-blue-900 transition-colors"
+                            className="flex items-center text-primary/80 hover:text-primary transition-colors"
                           >
                             <Linkedin className="h-5 w-5 mr-3" />
                             <span>LinkedIn</span>
@@ -243,7 +243,7 @@ export default async function CandidateDetailPage({ params }: CandidateDetailPag
                           </a>
                         )}
                         {candidateInfo.socialLinks.website && (
-                          <a 
+                          <a
                             href={candidateInfo.socialLinks.website}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -323,7 +323,7 @@ export default async function CandidateDetailPage({ params }: CandidateDetailPag
                   <CardContent>
                     <div className="space-y-4">
                       {candidateInfo.experience.map((exp, index: number) => (
-                        <div key={index} className="border-l-2 border-blue-200 pl-4">
+                        <div key={index} className="border-l-2 border-border pl-4">
                           <h4 className="font-semibold text-gray-900">{exp.title}</h4>
                           <p className="text-gray-700">{exp.organization}</p>
                           {exp.period && (

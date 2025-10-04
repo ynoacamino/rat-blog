@@ -27,18 +27,18 @@ export function PostCard({ post }: PostCardProps) {
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
             <Avatar className="h-10 w-10">
-              <AvatarImage 
+              <AvatarImage
                 src={(author.profileImage as Media)?.url || undefined}
-                alt={author.fullName} 
+                alt={author.fullName}
               />
               <AvatarFallback>
                 {author.fullName?.split(' ').map((n: string) => n[0]).join('').toUpperCase() || 'U'}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <Link 
+              <Link
                 href={`/candidatos/${author.id}`}
-                className="text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+                className="text-sm font-semibold text-gray-primary hover:text-primary transition-colors"
               >
                 {author.fullName}
               </Link>
@@ -80,7 +80,7 @@ export function PostCard({ post }: PostCardProps) {
               alt={featuredImage.alt || post.title || 'Imagen del post'}
               width={800}
               height={400}
-              className="w-full h-64 object-cover rounded-lg"
+              className="w-full h-64 object-cover"
             />
           </div>
         )}
@@ -141,7 +141,7 @@ export function PostCard({ post }: PostCardProps) {
             </div>
           </div>
 
-          <Link 
+          <Link
             href={`/posts/${post.id}`}
             className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
           >

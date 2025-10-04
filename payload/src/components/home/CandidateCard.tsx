@@ -6,10 +6,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import { 
-  MapPin, 
-  Briefcase, 
-  Users, 
+import {
+  MapPin,
+  Briefcase,
+  Users,
   ExternalLink,
   Facebook,
   Twitter,
@@ -65,32 +65,32 @@ export function CandidateCard({ candidate }: CandidateCardProps) {
       <CardHeader className="pb-4">
         <div className="flex items-start space-x-4">
           <Avatar className="h-16 w-16">
-            <AvatarImage 
+            <AvatarImage
               src={profileImage?.url || undefined}
-              alt={candidate.fullName} 
+              alt={candidate.fullName}
             />
             <AvatarFallback className="text-lg">
               {candidate.fullName?.split(' ').map((n: string) => n[0]).join('').toUpperCase() || 'C'}
             </AvatarFallback>
           </Avatar>
-          
+
           <div className="flex-1 min-w-0">
-            <Link 
+            <Link
               href={`/candidatos/${candidate.id}`}
               className="block"
             >
-              <h3 className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+              <h3 className="text-xl font-bold text-primary hover:text-primary transition-colors">
                 {candidate.fullName}
               </h3>
             </Link>
-            
+
             {candidateInfo?.position && (
               <div className="flex items-center text-sm text-gray-600 mt-1">
                 <Briefcase className="h-4 w-4 mr-1" />
                 <span>Candidato a {getPositionName(candidateInfo.position)}</span>
               </div>
             )}
-            
+
             {candidateInfo?.faculty && (
               <div className="flex items-center text-sm text-gray-600 mt-1">
                 <MapPin className="h-4 w-4 mr-1" />
@@ -98,7 +98,7 @@ export function CandidateCard({ candidate }: CandidateCardProps) {
               </div>
             )}
           </div>
-          
+
           <Badge variant="default" className="shrink-0">
             Candidato
           </Badge>
@@ -143,7 +143,7 @@ export function CandidateCard({ candidate }: CandidateCardProps) {
                 </div>
               ))}
               {candidateInfo.experience.length > 2 && (
-                <p className="text-xs text-blue-600">
+                <p className="text-xs text-primary">
                   +{candidateInfo.experience.length - 2} más...
                 </p>
               )}
@@ -156,27 +156,27 @@ export function CandidateCard({ candidate }: CandidateCardProps) {
           <div className="mb-4">
             <div className="flex space-x-2">
               {candidateInfo.socialLinks.facebook && (
-                <a 
+                <a
                   href={candidateInfo.socialLinks.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 transition-colors"
+                  className="text-primary hover:text-primary transition-colors"
                 >
                   <Facebook className="h-4 w-4" />
                 </a>
               )}
               {candidateInfo.socialLinks.twitter && (
-                <a 
+                <a
                   href={candidateInfo.socialLinks.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-600 transition-colors"
+                  className="text-primary hover:text-primary transition-colors"
                 >
                   <Twitter className="h-4 w-4" />
                 </a>
               )}
               {candidateInfo.socialLinks.instagram && (
-                <a 
+                <a
                   href={candidateInfo.socialLinks.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -186,17 +186,17 @@ export function CandidateCard({ candidate }: CandidateCardProps) {
                 </a>
               )}
               {candidateInfo.socialLinks.linkedin && (
-                <a 
+                <a
                   href={candidateInfo.socialLinks.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-700 hover:text-blue-900 transition-colors"
+                  className="text-primary hover:text-primary transition-colors"
                 >
                   <Linkedin className="h-4 w-4" />
                 </a>
               )}
               {candidateInfo.socialLinks.website && (
-                <a 
+                <a
                   href={candidateInfo.socialLinks.website}
                   target="_blank"
                   rel="noopener noreferrer"

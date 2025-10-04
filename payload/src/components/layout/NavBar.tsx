@@ -4,13 +4,13 @@ import React from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger 
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Search, Home, Users, BookOpen, User as UserIcon, LogOut } from 'lucide-react'
 import { Media, User } from '@/payload-types'
@@ -21,15 +21,13 @@ interface NavBarProps {
 
 export function NavBar({ user }: NavBarProps) {
   return (
-    <nav className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
+    <nav className="bg-white border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo y título */}
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="bg-blue-600 p-2 rounded-lg">
-                <BookOpen className="h-6 w-6 text-white" />
-              </div>
+                <BookOpen className="h-10 w-10" />
               <div>
                 <h1 className="text-xl font-bold text-gray-900">UNSA Blog 2026</h1>
                 <p className="text-xs text-gray-500">Plataforma Electoral</p>
@@ -39,15 +37,15 @@ export function NavBar({ user }: NavBarProps) {
 
           {/* Navegación principal */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link href="/" className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/" className="flex items-center space-x-1 text-gray-700 hover:text-primary transition-colors">
               <Home className="h-4 w-4" />
               <span>Inicio</span>
             </Link>
-            <Link href="/candidatos" className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/candidatos" className="flex items-center space-x-1 text-gray-700 hover:text-primary transition-colors">
               <Users className="h-4 w-4" />
               <span>Candidatos</span>
             </Link>
-            <Link href="/posts" className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/posts" className="flex items-center space-x-1 text-gray-700 hover:text-primary transition-colors">
               <BookOpen className="h-4 w-4" />
               <span>Posts</span>
             </Link>
@@ -63,11 +61,11 @@ export function NavBar({ user }: NavBarProps) {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Button variant="ghost" className="relative h-8 w-8">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage 
-                        src={(user.profileImage as Media)?.url || undefined} 
-                        alt={user.fullName} 
+                      <AvatarImage
+                        src={(user.profileImage as Media)?.url || undefined}
+                        alt={user.fullName}
                       />
                       <AvatarFallback>
                         {user.fullName?.split(' ').map(n => n[0]).join('').toUpperCase() || 'U'}
@@ -82,8 +80,8 @@ export function NavBar({ user }: NavBarProps) {
                       <p className="text-xs leading-none text-muted-foreground">
                         {user.email}
                       </p>
-                      <p className="text-xs leading-none text-blue-600 font-medium">
-                        {user.userType === 'candidate' ? 'Candidato' : 
+                      <p className="text-xs leading-none text-primary font-medium">
+                        {user.userType === 'candidate' ? 'Candidato' :
                          user.userType === 'admin' ? 'Administrador' : 'Votante'}
                       </p>
                     </div>
